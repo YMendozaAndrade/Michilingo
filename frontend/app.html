@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel | MichiLingo</title>
+  <link rel="shortcut icon" type="image/jpeg" href="img/Diseño Final.jpeg">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <aside class="barra-lateral" id="barraLateral">
+    <div class="barra-titulo">
+      <img src="img/Diseño Final.jpeg" alt="MichiLingo" class="logo-imagen">
+      <div>
+        <strong>Instituto de Idiomas MichiLingo</strong>
+        <small id="panelEtiqueta">Panel del sistema</small>
+      </div>
+    </div>
+    <nav id="menuNav" class="menu"></nav>
+    <div class="barra-footer">
+      <button id="btnCerrarSesion" class="btn btn-secundario btn-full">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="contenido">
+    <header class="encabezado">
+      <h1 id="tituloSeccion">Bienvenido</h1>
+      <span id="usuarioActual" class="usuario-actual"></span>
+    </header>
+
+    <section id="seccion-usuarios" class="seccion hidden">
+      <div id="vistaCategorias">
+        <div class="card">
+          <div class="card-cabecera">
+            <h2>Administración de usuarios</h2>
+          </div>
+          <div id="contenedorCategorias" class="categorias"></div>
+        </div>
+      </div>
+      <div id="vistaLista" class="hidden">
+        <div class="card">
+          <div class="card-cabecera">
+            <h2 id="tituloListaUsuarios"></h2>
+            <button id="btnNuevoUsuario" class="btn btn-primario">+ Nuevo usuario</button>
+          </div>
+          <button id="btnVolverCategorias" class="btn-volver"><span class="flecha">←</span> Volver a categorías</button>
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>ID</th><th>Usuario</th><th>Nombre</th><th>Correo</th>
+                <th>Estado</th><th>Último acceso</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaUsuarios"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="seccion-grupos" class="seccion hidden">
+      <div class="card">
+        <div class="card-cabecera">
+          <h2>Grupos académicos</h2>
+          <button id="btnNuevoGrupo" class="btn btn-primario">+ Nuevo grupo</button>
+        </div>
+        <div id="contenedorGrupos"></div>
+      </div>
+    </section>
+
+    <section id="seccion-asistencia" class="seccion hidden">
+      <div class="card">
+        <div class="card-cabecera">
+          <h2>Asistencia de estudiantes</h2>
+        </div>
+        <div id="contenedorAsistencia"></div>
+      </div>
+    </section>
+
+    <section id="seccion-horas" class="seccion hidden">
+      <div class="card">
+        <div class="card-cabecera">
+          <h2>Horas trabajadas</h2>
+        </div>
+        <div id="contenedorHoras"></div>
+      </div>
+    </section>
+
+    <section id="seccion-notas" class="seccion hidden">
+      <div class="card">
+        <div class="card-cabecera">
+          <h2>Notas de exámenes</h2>
+        </div>
+        <div id="contenedorNotas"></div>
+      </div>
+    </section>
+
+    <section id="seccion-sesiones" class="seccion hidden">
+      <div class="card">
+        <div class="card-cabecera">
+          <h2>Sesiones de clase (Temas vistos)</h2>
+        </div>
+        <p class="aviso-auto">Cada sesión registra fecha + tema visto del grupo. El profesor del grupo la crea; el estudiante solo lectura; el Administrativo consulta.</p>
+        <div id="contenedorSesiones"></div>
+      </div>
+    </section>
+
+    <section id="seccion-roles" class="seccion hidden">
+      <div class="card">
+        <div class="card-cabecera">
+          <h2>Roles y permisos — Administración del módulo de autenticación</h2>
+        </div>
+        <p class="aviso-auto">Cada opción del menú exige su permiso de acción (ver / crear / editar / eliminar / marcar / registrar / gestionar). Aquí se evidencia qué permiso abre cada módulo y quién lo tiene.</p>
+        <div id="contenedorRoles"></div>
+      </div>
+    </section>
+
+    <section id="seccion-perfil" class="seccion hidden">
+      <div class="card">
+        <h2>Mi perfil</h2>
+        <div id="contenedorPerfil"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalUsuario" class="modal hidden">
+    <div class="modal-contenido">
+      <div class="modal-cabecera">
+        <h3 id="modalTitulo">Nuevo usuario</h3>
+        <button class="btn-cerrar" id="btnCerrarModal">&times;</button>
+      </div>
+      <form id="formUsuario">
+        <input type="hidden" id="uId">
+        <div class="campo">
+          <label for="uCategoria">Perfil (categoría)</label>
+          <input type="text" id="uCategoria" readonly>
+        </div>
+        <div class="fila">
+          <div class="campo">
+            <label for="uNombres">Nombres</label>
+            <input type="text" id="uNombres">
+          </div>
+          <div class="campo">
+            <label for="uApellidos">Apellidos</label>
+            <input type="text" id="uApellidos">
+          </div>
+        </div>
+        <div class="fila">
+          <div class="campo">
+            <label for="uCorreo">Correo</label>
+            <input type="email" id="uCorreo">
+          </div>
+          <div class="campo">
+            <label for="uUsuario">Nombre de usuario</label>
+            <input type="text" id="uUsuario" required>
+          </div>
+        </div>
+        <div class="fila">
+          <div class="campo">
+            <label for="uContrasena">Contraseña</label>
+            <input type="password" id="uContrasena" placeholder="Nueva contraseña">
+          </div>
+        </div>
+        <label class="check">
+          <input type="checkbox" id="uActivo" checked> Usuario activo
+        </label>
+        <div class="campo">
+          <label>Permisos que tendrá este perfil al crearlo</label>
+          <div id="uPermisosPreview"></div>
+        </div>
+        <p id="modalError" class="error hidden"></p>
+        <div class="modal-acciones">
+          <button type="submit" class="btn btn-primario">Guardar</button>
+          <button type="button" class="btn btn-secundario" id="btnCancelarModal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalGrupo" class="modal hidden">
+    <div class="modal-contenido modal-contenido-grupo">
+      <div class="modal-cabecera">
+        <h3 id="modalGrupoTitulo">Nuevo grupo</h3>
+        <button class="btn-cerrar" id="btnCerrarModalGrupo">&times;</button>
+      </div>
+      <form id="formGrupo">
+        <input type="hidden" id="gId">
+        <div class="fila">
+          <div class="campo">
+            <label for="gNombre">Nombre del grupo</label>
+            <input type="text" id="gNombre" required>
+          </div>
+          <div class="campo">
+            <label for="gProfesor">Profesor a cargo</label>
+            <select id="gProfesor"></select>
+          </div>
+        </div>
+        <div class="campo">
+          <label>Horarios de clase</label>
+          <div id="gHorarios"></div>
+          <button type="button" id="btnAgregarHorario" class="btn btn-secundario">+ Agregar horario</button>
+        </div>
+        <div class="campo">
+          <label>Estudiantes del grupo</label>
+          <div id="gEstudiantes" class="roles-check"></div>
+        </div>
+        <p id="gError" class="error hidden"></p>
+        <div class="modal-acciones">
+          <button type="submit" class="btn btn-primario">Guardar</button>
+          <button type="button" class="btn btn-secundario" id="btnCancelarModalGrupo">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalExamen" class="modal hidden">
+    <div class="modal-contenido">
+      <div class="modal-cabecera">
+        <h3 id="modalExamenTitulo">Nuevo examen</h3>
+        <button class="btn-cerrar" id="btnCerrarModalExamen">&times;</button>
+      </div>
+      <form id="formExamen">
+        <input type="hidden" id="exId">
+        <div class="campo">
+          <label for="exNombre">Nombre del examen (tema)</label>
+          <input type="text" id="exNombre" required>
+        </div>
+        <div class="campo">
+          <label for="exFecha">Fecha</label>
+          <input type="date" id="exFecha">
+        </div>
+        <div class="campo">
+          <label>Notas de los estudiantes (0.0 a 5.0)</label>
+          <div id="exNotas" class="notas-editor"></div>
+        </div>
+        <p id="exError" class="error hidden"></p>
+        <div class="modal-acciones">
+          <button type="submit" class="btn btn-primario">Guardar</button>
+          <button type="button" class="btn btn-secundario" id="btnCancelarModalExamen">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalSesion" class="modal hidden">
+    <div class="modal-contenido">
+      <div class="modal-cabecera">
+        <h3 id="modalSesionTitulo">Nueva sesión de clase</h3>
+        <button class="btn-cerrar" id="btnCerrarModalSesion">&times;</button>
+      </div>
+      <form id="formSesion">
+        <input type="hidden" id="sesId">
+        <div class="fila">
+          <div class="campo">
+            <label for="sesFecha">Fecha de la sesión</label>
+            <input type="date" id="sesFecha" required>
+          </div>
+          <div class="campo">
+            <label for="sesHorario">Horario (del grupo)</label>
+            <select id="sesHorario"><option value="">Sin horario</option></select>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="sesTema">Tema visto (obligatorio)</label>
+          <input type="text" id="sesTema" required placeholder="Ej: Verbo to be: preguntas">
+        </div>
+        <div class="campo">
+          <label for="sesDescripcion">Descripción</label>
+          <input type="text" id="sesDescripcion" placeholder="Qué se vio en clase">
+        </div>
+        <p id="sesError" class="error hidden"></p>
+        <div class="modal-acciones">
+          <button type="submit" class="btn btn-primario">Guardar</button>
+          <button type="button" class="btn btn-secundario" id="btnCancelarModalSesion">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalRol" class="modal hidden">
+    <div class="modal-contenido modal-contenido-grupo">
+      <div class="modal-cabecera">
+        <h3 id="modalRolTitulo">Nuevo rol</h3>
+        <button class="btn-cerrar" id="btnCerrarModalRol">&times;</button>
+      </div>
+      <form id="formRol">
+        <input type="hidden" id="rolId">
+        <div class="fila">
+          <div class="campo">
+            <label for="rolNombre">Nombre del rol</label>
+            <input type="text" id="rolNombre" required>
+          </div>
+          <div class="campo">
+            <label for="rolDescripcion">Descripción</label>
+            <input type="text" id="rolDescripcion">
+          </div>
+        </div>
+        <div class="campo">
+          <label>Permisos de acción del rol</label>
+          <div id="rolPermisos" class="roles-check"></div>
+        </div>
+        <p id="rolError" class="error hidden"></p>
+        <div class="modal-acciones">
+          <button type="submit" class="btn btn-primario">Guardar</button>
+          <button type="button" class="btn btn-secundario" id="btnCancelarModalRol">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

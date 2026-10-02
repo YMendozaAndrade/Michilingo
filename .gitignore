@@ -1,0 +1,19 @@
+# Dependencias
+node_modules/
+backend/node/node_modules/
+
+# Secretos locales (cada PC usa su .env desde .env.example)
+.env
+backend/node/.env
+
+# Logs y temporales
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Respaldos del editor
+*.bak
+*.tmp
+~$*

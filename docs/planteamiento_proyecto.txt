@@ -1,0 +1,78 @@
+PLANTEAMIENTO DEL PROYECTO
+Sistema de Gestión Académica y Administrativa para Instituto de Idiomas
+
+(Transcrito desde el PDF original para referencia del desarrollo)
+
+INTRODUCCIÓN
+En el entorno educativo actual, la eficiente administración de los recursos académicos
+y administrativos constituye un factor determinante para garantizar la calidad del
+servicio y la satisfacción de los estudiantes. Los institutos de enseñanza de idiomas
+enfrentan desafíos particulares, tales como la gestión del avance progresivo por niveles
+de competencia alineados con el Marco Común Europeo de Referencia, la asignación
+dinámica de horarios y aulas, el control estricto de asistencia y el seguimiento
+continuo del rendimiento estudiantil. La falta de un sistema centralizado e integrado
+suele derivar en redundancia de datos, inconsistencias operativas y un incremento
+significativo en la carga de trabajo manual.
+El presente documento expone la propuesta de diseño e implementación de un sistema de
+información soportado por una base de datos relacional, orientada a automatizar los
+procesos clave de un instituto de idiomas. Mediante la estructuración rigurosa de
+requerimientos y la aplicación de principios de normalización, el proyecto busca
+proveer una solución tecnológica escalable y segura que optimice la toma de decisiones
+administrativas y garantice la integridad de la información en todo su ciclo de vida.
+
+DESCRIPCIÓN DEL PROYECTO
+El proyecto consiste en el diseño y desarrollo de un sistema para automatizar la gestión
+administrativa y académica de un instituto de idiomas. El sistema se encarga de:
+- Administrar la información de estudiantes y profesores, verificando la asistencia y el
+  pago de la mensualidad de los estudiantes, las horas trabajadas de los profesores y el
+  pago a los mismos, así como su evaluación para medir su desempeño.
+- La asignación de horarios y grupos, así como un cronograma de las clases y temas dados
+  en el día, semana, mes y año.
+- Seguimiento de calificaciones y exámenes.
+- Acceso a material didáctico correspondiente a cada unidad y tema.
+- Manejar el avance estructurado de los estudiantes a través de los diferentes niveles;
+  por ejemplo, programar la base de datos para que rechace automáticamente la inscripción
+  de un estudiante en un grupo de nivel B1 si no tiene registrado un "Aprobado" en el
+  nivel anterior.
+- Generar el boletín mensual de un grupo entero o de forma individual.
+
+OBJETIVO GENERAL
+Diseñar e implementar una base de datos relacional que optimice y garantice la
+integridad de los datos en los procesos de matrícula, control académico y gestión de
+personal de un instituto de idiomas.
+
+OBJETIVOS ESPECÍFICOS
+- Fase de Análisis: Identificar y documentar los requerimientos de información del
+  instituto, definible mediante entidades principales (Estudiantes, Profesores, Cursos,
+  Niveles) y reglas de negocio como la validación automática de prerrequisitos.
+- Fase de Diseño: Modelar la estructura de la base de datos mediante diagramas
+  Entidad-Relación y aplicar reglas de normalización hasta la Tercera Forma Normal (3FN)
+  para eliminar redundancias y dependencias anómalas.
+- Fase de Desarrollo: Codificar el modelo relacional implementando tablas, llaves
+  primarias, foráneas, restricciones de integridad y procedimientos almacenados
+  necesarios.
+- Fase de Pruebas: Ejecutar consultas de prueba y simulación de funciones (inserción de
+  calificaciones, matrículas concurrentes) para validar el rendimiento y la consistencia
+  de los datos bajo diferentes escenarios.
+
+MÓDULOS DE LA SOLUCIÓN
+- Módulo de usuarios: Gestión de perfiles con diferentes niveles de acceso y roles
+  definidos (Administrativos, Profesores y Estudiantes).
+- Módulo académico: Administración del catálogo de cursos, control de los niveles de
+  competencia (A1, A2, B1, B2), creación de grupos y asignación de aulas físicas o
+  virtuales.
+- Módulo de gestión de profesores: Asignación de cargas horarias y vinculación de
+  profesores a los grupos correspondientes según su disponibilidad.
+- Módulo de matrículas y evaluación: Registro de inscripción de estudiantes a los grupos,
+  control de asistencia, y registro de calificaciones para el cálculo automático de
+  aprobación o reprobación.
+- Módulo didáctico: Gestión y acceso a material de aprendizaje independiente organizado
+  sobre temas específicos.
+
+TECNOLOGÍAS DE DESARROLLO A UTILIZAR
+Se utilizará MySQL como motor de sistema de gestión de bases de datos relacionales
+(RDBMS). Para la capa de desarrollo e implementación del software, se empleará un
+esquema complementario con Java y Node.js: Java aportará una estructura robusta para el
+procesamiento de la lógica de negocio orientada a objetos, mientras que Node.js
+proporcionará una capa de servicios API rápida y escalable para conectar de manera
+asíncrona las solicitudes de los usuarios con la base de datos MySQL.
