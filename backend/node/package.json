@@ -4,7 +4,8 @@
   "description": "API Node.js - Sistema de gestión para instituto de idiomas",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

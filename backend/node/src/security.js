@@ -39,8 +39,10 @@ function verifyPassword(pass, stored) {
 }
 
 function signToken(payload) {
+  const sid = crypto.randomBytes(8).toString('hex');
   const body = Buffer.from(JSON.stringify({
     ...payload,
+    sid,
     exp: Date.now() + 8 * 3600 * 1000
   })).toString('base64url');
   const sig = crypto.createHmac('sha256', config.token.secret).update(body).digest('base64url');

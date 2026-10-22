@@ -14,6 +14,17 @@ function getUsuarioSesion() {
 }
 
 function cerrarSesion() {
+  const token = getToken();
+  if (token) {
+    // Avisa al backend para borrar la sesión viva en Redis (sin bloquear la salida).
+    try {
+      fetch(API_BASE + '/auth/logout', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        keepalive: true
+      }).catch(() => {});
+    } catch (e) { /* salida local igual */ }
+  }
   localStorage.removeItem('token');
   localStorage.removeItem('usuario');
   location.href = 'index.html';

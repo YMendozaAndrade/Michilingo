@@ -32,7 +32,7 @@ async function loadAuth(req) {
     apellidos: usuarios[0].apellidos,
     correo: usuarios[0].correo,
     activo: !!usuarios[0].activo,
-    roles: roles.map(r => r.nombre),
+    sid: payload.sid || null,    roles: roles.map(r => r.nombre),
     permisos: permisos.map(p => p.nombre)
   };
 }

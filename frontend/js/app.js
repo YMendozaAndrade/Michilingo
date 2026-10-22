@@ -69,6 +69,9 @@ async function init() {
   }
   $('usuarioActual').textContent = '👤 ' + (usuario.nombre_usuario || 'usuario');
   $('panelEtiqueta').textContent = esAdmin() ? 'Perfil Administrativo' : esProfe() ? 'Perfil Profesor' : 'Perfil Estudiante';
+  $('barraNombre').textContent = usuario.nombre_usuario || 'usuario';
+  $('barraRol').textContent = (usuario.roles || []).join(' · ') || 'sin rol';
+  $('barraAvatar').textContent = (usuario.nombre_usuario || '?').trim().charAt(0).toUpperCase();
   construirMenu();
 
   $('btnCerrarSesion').addEventListener('click', cerrarSesion);

@@ -6,6 +6,17 @@ const { conectarRedis } = require('./redis');
 const app = express();
 app.use(express.json());
 
+// Log de peticiones estilo dev: GET /api/roles 200 in 12ms (con color por estado).
+app.use((req, res, next) => {
+  const inicio = process.hrtime.bigint();
+  res.on('finish', () => {
+    const ms = Number(process.hrtime.bigint() - inicio) / 1e6;
+    const c = res.statusCode >= 500 ? '\x1b[31m' : res.statusCode >= 400 ? '\x1b[33m' : '\x1b[32m';
+    console.log(`${req.method} ${req.originalUrl} ${c}${res.statusCode}\x1b[0m in ${ms.toFixed(0)}ms`);
+  });
+  next();
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/roles', require('./routes/roles'));

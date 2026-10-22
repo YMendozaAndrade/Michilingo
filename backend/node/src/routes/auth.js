@@ -2,7 +2,7 @@ const express = require('express');
 const { query } = require('../db');
 const { hashPassword, verifyPassword, signToken } = require('../security');
 const { authenticate } = require('../middleware');
-const { leerCredencial, guardarCredencial } = require('../redis');
+const { leerCredencial, guardarCredencial, guardarSesion, eliminarSesion, listarSesiones } = require('../redis');
 
 const router = express.Router();
 
@@ -89,6 +89,18 @@ router.post('/login', async (req, res) => {
          JOIN permisos p ON p.id_permiso = rp.id_permiso
         WHERE ur.id_usuario = ?`, [rows[0].id_usuario]);
 
+    // Sesión viva en Redis: quién está logueado ahora con sus datos (TTL 8h).
+    try {
+      const { verifyToken } = require('../security');
+      const data = verifyToken(token);
+      if (data && data.sid) {
+        await guardarSesion(data.sid, rows[0].id_usuario, rows[0].nombre_usuario,
+          roles.map(r => r.nombre), permisos.map(p => p.nombre));
+      }
+    } catch (e) {
+      console.error('[redis] no se pudo registrar sesión de', rows[0].nombre_usuario, '-', e.message);
+    }
+
     res.json({
       token,
       usuario: {
@@ -105,6 +117,28 @@ router.post('/login', async (req, res) => {
 
 router.get('/me', authenticate, (req, res) => {
   res.json({ usuario: req.auth });
+});
+
+// POST /api/auth/logout -> cierra la sesión viva en Redis (best-effort).
+router.post('/logout', authenticate, async (req, res) => {
+  try {
+    await eliminarSesion(req.auth.nombre_usuario);
+  } catch (e) {
+    console.error('[redis] no se pudo cerrar sesión -', e.message);
+  }
+  res.json({ mensaje: 'Sesión cerrada.' });
+});
+
+// GET /api/auth/sesiones -> quién está logueado ahora (solo administración).
+router.get('/sesiones', authenticate, async (req, res) => {
+  if (!(req.auth.permisos || []).includes('roles.ver')) {
+    return res.status(403).json({ error: 'Permiso denegado. No tiene el permiso: roles.ver' });
+  }
+  try {
+    res.json(await listarSesiones());
+  } catch (e) {
+    res.status(503).json({ error: 'Redis no disponible.' });
+  }
 });
 
 // Cambio de contraseña del usuario autenticado (autoservicio).

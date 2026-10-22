@@ -188,6 +188,11 @@ async function login(usuario, contrasena) { return api('POST', '/auth/login', { 
   const tmpDesact = await login('tmpusu2', 'clave123');
   prueba('Usuario desactivado no inicia sesión (fuera de Redis -> 401)', tmpDesact.status === 401, 'status=' + tmpDesact.status);
 
+  // ---------- Cierre de sesión (limpia las llaves michilingo:ses:* en Redis) ----------
+  prueba('Logout Administrativo borra su sesión', (await api('POST', '/auth/logout', undefined, A)).status === 200);
+  prueba('Logout Profesor borra su sesión', (await api('POST', '/auth/logout', undefined, P)).status === 200);
+  prueba('Logout Estudiante borra su sesión', (await api('POST', '/auth/logout', undefined, E)).status === 200);
+
   // ---------- Rate limiting ----------
   let ultimo = null;
   for (let i = 0; i < 6; i++) ultimo = await login('travieso', 'incorrecta');
